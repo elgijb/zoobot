@@ -15,7 +15,7 @@ WIKIPEDIA_BASE_URL = "https://ru.wikipedia.org"
 
 def get_animal_info(animal_name):
     """
-    Получает основную информацию и одно изображение о животном из Википедии.
+    Получает первые четыре параграфа и одно изображение о животном из Википедии.
     
     :param animal_name: Название животного для поиска.
     :return: Словарь с информацией о животном и изображением или None, если страница не найдена.
@@ -31,9 +31,9 @@ def get_animal_info(animal_name):
 
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Получение основного контента из contentSub
-        content_sub = soup.find('div', id='contentSub')
-        summary = content_sub.get_text(strip=True) if content_sub else "Описание не найдено."
+        # Получение первых четырех параграфов текста
+        paragraphs = soup.find_all('p', limit=4)
+        summary = "\n\n".join([p.get_text(strip=True) for p in paragraphs]) if paragraphs else "Описание не найдено."
 
         # Получение первого изображения из og:image
         og_image_tag = soup.find('meta', property='og:image')
@@ -143,5 +143,6 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+
 
 
