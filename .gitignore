@@ -1,0 +1,26 @@
+# Файлы и папки, относящиеся к виртуальному окружению Python
+venv/
+env/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Конфигурационные файлы
+.env
+
+# Логи
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Файлы IDE
+.vscode/
+.idea/
+
+# MacOS system files
+.DS_Store
+
+# Другие системные файлы
+Thumbs.db

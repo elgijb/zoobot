@@ -62,8 +62,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         [
             InlineKeyboardButton("Поиск по названию животного", callback_data='search_animal'),
             InlineKeyboardButton("Поиск по названию породы", callback_data='search_breed')
-        ],
-        [InlineKeyboardButton("Поиск по среде обитания", callback_data='search_habitat')]
+        ]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text(
@@ -80,9 +79,6 @@ async def button(update: Update, context: CallbackContext) -> None:
     elif query.data == 'search_breed':
         context.user_data['search_type'] = 'breed'
         await query.edit_message_text(text="Введите название породы:")
-    elif query.data == 'search_habitat':
-        context.user_data['search_type'] = 'habitat'
-        await query.edit_message_text(text="Введите название среды обитания:")
 
 async def handle_message(update: Update, context: CallbackContext) -> None:
     user_input = update.message.text.strip().title()
@@ -95,17 +91,6 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text(response, parse_mode='Markdown')
         else:
             await update.message.reply_text('Извините, я не нашел информацию об этом животном.')
-    elif context.user_data.get('search_type') == 'habitat':
-        animals = get_habitat_info(user_input)
-        if animals:
-            response = f'Животные, найденные в среде обитания "{user_input}":\n\n'
-            for animal in animals:
-                response += f"**Название**: *{animal['title']}*\n{animal['summary']}\n\nЧитать больше: {animal['url']}\n\n"
-                if animal['images']:
-                    await update.message.reply_photo(photo=animal['images'][0])
-            await update.message.reply_text(response, parse_mode='Markdown')
-        else:
-            await update.message.reply_text(f'Извините, я не нашел информацию о среде обитания "{user_input}".')
 
 async def animal_of_the_day(update: Update, context: CallbackContext) -> None:
     info = get_animal_of_the_day()
@@ -134,4 +119,9 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+
+
+
+
+
 
